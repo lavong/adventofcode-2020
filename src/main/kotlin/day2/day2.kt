@@ -30,13 +30,11 @@ fun main() {
                 .onEach { put(it, n1 + it) }
         }
 
-        if (n2CandidatesWithSums.isNotEmpty()) {
-            n2CandidatesWithSums.forEach { (n2, sumN1N2) ->
-                (target - sumN1N2)
-                    .takeIf { input.contains(it) }
-                    ?.let { println("solution: $n1 * $n2 * $it = ${n1 * n2 * it}") }
-                    ?.also { exitProcess(0) }
-            }
+        n2CandidatesWithSums.forEach { (n2, sumN1N2) ->
+            (target - sumN1N2)
+                .takeIf { input.contains(it) }
+                ?.let { println("solution: $n1 * $n2 * $it = ${n1 * n2 * it}") }
+                ?.also { exitProcess(0) }
         }
     }
 
