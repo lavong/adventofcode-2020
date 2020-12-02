@@ -1,42 +1,31 @@
 /*
---- Part Two ---
+--- Day 2: Password Philosophy ---
 
-The Elves in accounting are thankful for your help; one of them even offers you a starfish coin they had left over from a past vacation. They offer you a second one if you can find three numbers in your expense report that meet the same criteria.
+Your flight departs in a few days from the coastal airport; the easiest way down to the coast from here is via toboggan.
 
-Using the above example again, the three entries that sum to 2020 are 979, 366, and 675. Multiplying them together produces the answer, 241861950.
+The shopkeeper at the North Pole Toboggan Rental Shop is having a bad day. "Something's wrong with our computers; we can't log in!" You ask if you can take a look.
 
-In your expense report, what is the product of the three entries that sum to 2020?
+Their password database seems to be a little corrupted: some of the passwords wouldn't have been allowed by the Official Toboggan Corporate Policy that was in effect when they were chosen.
+
+To try to debug the problem, they have created a list (your puzzle input) of passwords (according to the corrupted database) and the corporate policy when that password was set.
+
+For example, suppose you have the following list:
+
+1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc
+
+Each line gives the password policy and then the password. The password policy indicates the lowest and highest number of times a given letter must appear for the password to be valid. For example, 1-3 a means that the password must contain a at least 1 time and at most 3 times.
+
+In the above example, 2 passwords are valid. The middle password, cdefg, is not; it contains no instances of b, but needs at least 1. The first and third passwords are valid: they contain one a or nine c, both within the limits of their respective policies.
+
+How many passwords are valid according to their policies?
  */
 
 package day2
 
-import A
-import kotlin.system.exitProcess
-
 const val target = 2020
 
 fun main() {
-    val input = A::class.java.classLoader.getResource("day1/input")
-        .readText()
-        .lines()
-        .filter { it.isNotEmpty() }
-        .map { it.toInt() }
-        .toHashSet()
-        .filter { it < target }
 
-    input.listIterator().forEach { n1 ->
-        val n2CandidatesWithSums = mutableMapOf<Int, Int>().apply {
-            input.filter { it < (target - n1) }
-                .onEach { put(it, n1 + it) }
-        }
-
-        n2CandidatesWithSums.forEach { (n2, sumN1N2) ->
-            (target - sumN1N2)
-                .takeIf { input.contains(it) }
-                ?.let { println("solution: $n1 * $n2 * $it = ${n1 * n2 * it}") }
-                ?.also { exitProcess(0) }
-        }
-    }
-
-    println("no solution, no good")
 }
