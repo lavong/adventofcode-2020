@@ -23,12 +23,10 @@ fun main() {
         .map { it.toInt() }
         .toHashSet()
         .filter { it < target }
-        .also { println("all: $it") }
 
     input.listIterator().forEach { n1 ->
         val n2CandidatesWithSums = mutableMapOf<Int, Int>().apply {
             input.filter { it < (target - n1) }
-                .also { println("candidates for $n1: $it") }
                 .onEach { put(it, n1 + it) }
         }
 
@@ -36,7 +34,7 @@ fun main() {
             n2CandidatesWithSums.forEach { (n2, sumN1N2) ->
                 (target - sumN1N2)
                     .takeIf { input.contains(it) }
-                    ?.let { println("solution: $n1 * $n2 * $it = ${n1*n2*it}") }
+                    ?.let { println("solution: $n1 * $n2 * $it = ${n1 * n2 * it}") }
                     ?.also { exitProcess(0) }
             }
         }
