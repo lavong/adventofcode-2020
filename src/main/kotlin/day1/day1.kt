@@ -36,12 +36,9 @@ fun main() {
         .readText()
         .lines()
         .filter { it.isNotEmpty() }
-        .also { println("input lines: ${it.size}") }
         .map { it.toInt() }
         .toHashSet()
-        .also { println("set entries: ${it.size}") }
         .filter { it < target }
-        .also { println("candidates: ${it.size}") }
 
     candidates.listIterator().forEach { candidate ->
         (target - candidate)
