@@ -24,8 +24,30 @@ How many passwords are valid according to their policies?
 
 package day2
 
-const val target = 2020
+data class PasswordEntry(val min: Int, val max: Int, val char: Char, val password: String) {
+    fun isValid() = password.count { it == char } in min..max
+}
 
 fun main() {
+    val input = PasswordEntry::class.java.classLoader.getResource("day2/input")
+        .readText()
+        .also { println(it) }
+        .lines()
+        .filter { it.isNotEmpty() }
 
+    val passwordEntries = input
+        .map { it.split("-", " ", ":") }
+        .map { splits ->
+            PasswordEntry(
+                min = splits[0].toInt(),
+                max = splits[1].toInt(),
+                char = splits[2].toCharArray()[0],
+                password = splits.last()
+            )
+        }
+        .also { println("password entries: ${it.size}") }
+
+    val validPasswordCount = passwordEntries.map { it.isValid() }.filter { it }.count()
+
+    println("valid passwords: $validPasswordCount")
 }
