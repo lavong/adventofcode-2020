@@ -26,9 +26,8 @@ In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying the
  */
 package day1
 
+import A
 import kotlin.system.exitProcess
-
-class A
 
 const val target = 2020
 
