@@ -64,12 +64,12 @@ fun solvePartOne(input: List<Int>) {
 fun solvePartTwo(input: List<Int>) {
     input.listIterator().forEach { n1 ->
         val n2CandidatesWithSums = mutableMapOf<Int, Int>().apply {
-            input.filter { it < (day2.target - n1) }
+            input.filter { it < (target - n1) }
                 .onEach { put(it, n1 + it) }
         }
 
         n2CandidatesWithSums.forEach { (n2, sumN1N2) ->
-            (day2.target - sumN1N2)
+            (target - sumN1N2)
                 .takeIf { input.contains(it) }
                 ?.let { println("solution part2: $n1 x $n2 x $it = ${n1 * n2 * it}") }
                 ?.also { exitProcess(0) }
