@@ -88,7 +88,7 @@ enum class TerrainType(val char: Char) {
     }
 }
 
-fun String.terrainTypes() = this.toCharArray().map { TerrainType.forChar(it) }.toTypedArray()
+fun String.terrainTypes() = toCharArray().map { TerrainType.forChar(it) }.toTypedArray()
 
 fun main() {
     val input = A::class.java.classLoader.getResource("day3/input")
@@ -103,18 +103,18 @@ fun main() {
     println("solution part1: ${traverse(terrain, 3, 1)}")
 
     val partTwoTrees = listOf(
-        traverse(terrain, 1, 1).toLong(),
-        traverse(terrain, 3, 1).toLong(),
-        traverse(terrain, 5, 1).toLong(),
-        traverse(terrain, 7, 1).toLong(),
-        traverse(terrain, 1, 2).toLong(),
+        traverse(terrain, 1, 1),
+        traverse(terrain, 3, 1),
+        traverse(terrain, 5, 1),
+        traverse(terrain, 7, 1),
+        traverse(terrain, 1, 2),
     )
     println("solution part2: ${partTwoTrees.reduce { acc, n -> acc * n }}")
 }
 
-fun traverse(terrain: Array<Array<TerrainType>>, dx: Int, dy: Int): Int {
+fun traverse(terrain: Array<Array<TerrainType>>, dx: Int, dy: Int): Long {
     var x = 0
-    var encounteredTrees = 0
+    var encounteredTrees = 0L
     (dy until terrain.size step dy).onEach { y ->
         x = (x + dx) % terrain[y].size
         if (terrain[y][x] == TerrainType.TREE) {
