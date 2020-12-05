@@ -146,8 +146,7 @@ data class Document(
         return byr
             ?.takeIf { it.length == 4 }
             ?.toIntOrNull()
-            ?.takeIf { it >= 1920 }
-            ?.takeIf { it <= 2002 }
+            ?.takeIf { it in 1920..2002 }
             .let { it != null }
     }
 
@@ -155,8 +154,7 @@ data class Document(
         return iyr
             ?.takeIf { it.length == 4 }
             ?.toIntOrNull()
-            ?.takeIf { it >= 2010 }
-            ?.takeIf { it <= 2020 }
+            ?.takeIf { it in 2010..2020 }
             .let { it != null }
     }
 
@@ -164,8 +162,7 @@ data class Document(
         return eyr
             ?.takeIf { it.length == 4 }
             ?.toIntOrNull()
-            ?.takeIf { it >= 2020 }
-            ?.takeIf { it <= 2030 }
+            ?.takeIf { it in 2020..2030 }
             .let { it != null }
     }
 
@@ -174,8 +171,8 @@ data class Document(
         val h: Int = height.dropLast(2).toIntOrNull() ?: return false
 
         return when (height.takeLast(2)) {
-            "cm" -> h.takeIf { it >= 150 }?.takeIf { it <= 196 } != null
-            "in" -> h.takeIf { it >= 59 }?.takeIf { it <= 76 } != null
+            "cm" -> h.takeIf { it in 150..196 } != null
+            "in" -> h.takeIf { it in 59..76 } != null
             else -> false
         }
     }
