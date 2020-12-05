@@ -75,9 +75,6 @@ What do you get if you multiply together the number of trees encountered on each
 
 package day3
 
-import A
-import java.lang.IllegalArgumentException
-
 enum class TerrainType(val char: Char) {
     OPEN('.'),
     TREE('#');
@@ -91,8 +88,7 @@ enum class TerrainType(val char: Char) {
 fun String.terrainTypes() = toCharArray().map { TerrainType.forChar(it) }.toTypedArray()
 
 fun main() {
-    val input = A::class.java.classLoader.getResource("day3/input")
-        .readText()
+    val input = AdventOfCode.file("day3/input")
         .lines()
         .filter { it.isNotEmpty() }
 

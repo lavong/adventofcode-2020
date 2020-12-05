@@ -209,7 +209,7 @@ data class Document(
 }
 
 fun main() {
-    val input = Document::class.java.classLoader.getResource("day4/input").readText()
+    val input = AdventOfCode.file("day4/input")
 
     val documents = input.split("\n\n")
         .map { it.replace("\n", " ") }

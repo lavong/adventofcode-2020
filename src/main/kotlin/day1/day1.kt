@@ -34,14 +34,12 @@ In your expense report, what is the product of the three entries that sum to 202
  */
 package day1
 
-import A
 import kotlin.system.exitProcess
 
 const val target = 2020
 
 fun main() {
-    val input = A::class.java.classLoader.getResource("day1/input")
-        .readText()
+    val input = AdventOfCode.file("day1/input")
         .lines()
         .filter { it.isNotEmpty() }
         .map { it.toInt() }

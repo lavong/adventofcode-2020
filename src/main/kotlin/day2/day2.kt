@@ -46,8 +46,7 @@ data class PasswordEntry(val min: Int, val max: Int, val char: Char, val passwor
 }
 
 fun main() {
-    val input = PasswordEntry::class.java.classLoader.getResource("day2/input")
-        .readText()
+    val input = AdventOfCode.file("day2/input")
         .lines()
         .filter { it.isNotBlank() }
 

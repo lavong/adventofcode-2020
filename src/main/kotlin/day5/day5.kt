@@ -55,11 +55,10 @@ What is the ID of your seat?
  */
 package day5
 
-import A
+import AdventOfCode
 
 fun main() {
-    val input = A::class.java.classLoader.getResource("day5/input")
-        .readText()
+    val input = AdventOfCode.file("day5/input")
         .lines()
         .filter { it.isNotEmpty() }
 
