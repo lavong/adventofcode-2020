@@ -43,19 +43,93 @@ In this example, the sum of these counts is 3 + 3 + 3 + 1 + 1 = 11.
 
 For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts?
 
+--- Part Two ---
+
+As you finish the last group's customs declaration, you notice that you misread one word in the instructions:
+
+You don't need to identify the questions to which anyone answered "yes"; you need to identify the questions to which everyone answered "yes"!
+
+Using the same example as above:
+
+abc
+
+a
+b
+c
+
+ab
+ac
+
+a
+a
+a
+a
+
+b
+
+This list represents answers from five groups:
+
+    In the first group, everyone (all 1 person) answered "yes" to 3 questions: a, b, and c.
+    In the second group, there is no question to which everyone answered "yes".
+    In the third group, everyone answered yes to only 1 question, a. Since some people did not answer "yes" to b or c, they don't count.
+    In the fourth group, everyone answered yes to only 1 question, a.
+    In the fifth group, everyone (all 1 person) answered "yes" to 1 question, b.
+
+In this example, the sum of these counts is 3 + 0 + 1 + 1 + 1 = 6.
+
+For each group, count the number of questions to which everyone answered "yes". What is the sum of those counts?
+
  */
 package day6
 
 fun main() {
     val input = AdventOfCode.file("day6/input")
+
+    solvePartOne(input)
+    solvePartTwo(input)
+}
+
+fun solvePartOne(input: String) {
+    val groupAnswers = input
         .split("\n\n")
         .map { it.replace("\n", "") }
-
-    val groupAnswers = input
-        .also { println("group count: ${it.size}") }
         .map { mutableSetOf(*it.toCharArray().toTypedArray()) }
         .map { it.size }
-        .onEach { println(it) }
 
-    println("solution: ${groupAnswers.sum()}")
+    println("solution part one: ${groupAnswers.sum()}")
+}
+
+fun solvePartTwo(input: String) {
+    var solution = 0
+
+    val groups = input
+        .split("\n\n")
+
+    val singleGroups = groups
+        .filter { !it.contains("\n") }
+        .onEach { println("single group '$it' counts for ${it.length}") }
+        .onEach { solution += it.length }
+
+    val remainingGroups = groups
+        .filter { it.contains("\n") }
+        .map {
+            val answers = setOf(*it.replace("\n", "").toCharArray().toTypedArray())
+            val groupList = it.split("\n")
+            answers to groupList
+        }
+        .onEach {
+            println("answers to be checked: '${it.first}' in ${it.second}")
+            var groupAnswerCount = 0
+            val groupSize = it.second.size
+            it.first.forEach { c ->
+                if (it.second.filter { it.contains(c) }.size == groupSize) {
+                    ++groupAnswerCount
+                    println("  counting: $c")
+                }
+            }
+            println("-> group count: $groupAnswerCount")
+            solution += groupAnswerCount
+        }
+
+    println("solution part2: $solution")
 }
