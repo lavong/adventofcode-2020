@@ -117,7 +117,6 @@ fun solvePartTwo(input: String) {
 
     groupAnswers.zip(groups)
         .onEach { (answers, groups) ->
-            println("$answers --> $groups")
             var commonAnswers: Set<Char> = mutableSetOf<Char>().apply { addAll(answers) }
             groups.forEach {
                 commonAnswers = commonAnswers.intersect(it)
