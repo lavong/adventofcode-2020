@@ -93,7 +93,7 @@ fun solvePartOne(input: String) {
     val groupAnswers = input
         .split("\n\n")
         .map { it.replace("\n", "") }
-        .map { mutableSetOf(*it.toCharArray().toTypedArray()) }
+        .map { setOf(*it.toCharArray().toTypedArray()) }
         .map { it.size }
 
     println("solution part one: ${groupAnswers.sum()}")
@@ -104,31 +104,25 @@ fun solvePartTwo(input: String) {
 
     val groups = input
         .split("\n\n")
-
-    val singleGroups = groups
-        .filter { !it.contains("\n") }
-        .onEach { println("single group '$it' counts for ${it.length}") }
-        .onEach { solution += it.length }
-
-    val remainingGroups = groups
-        .filter { it.contains("\n") }
         .map {
-            val answers = setOf(*it.replace("\n", "").toCharArray().toTypedArray())
-            val groupList = it.split("\n")
-            answers to groupList
+            it.split("\n")
+                .map { setOf(*it.toCharArray().toTypedArray()) }
+                .filterNot { it.isEmpty() }
         }
-        .onEach {
-            println("answers to be checked: '${it.first}' in ${it.second}")
-            var groupAnswerCount = 0
-            val groupSize = it.second.size
-            it.first.forEach { c ->
-                if (it.second.filter { it.contains(c) }.size == groupSize) {
-                    ++groupAnswerCount
-                    println("  counting: $c")
-                }
+
+    val groupAnswers = input
+        .split("\n\n")
+        .map { it.replace("\n", "") }
+        .map { setOf(*it.toCharArray().toTypedArray()) }
+
+    groupAnswers.zip(groups)
+        .onEach { (answers, groups) ->
+            println("$answers --> $groups")
+            var commonAnswers: Set<Char> = mutableSetOf<Char>().apply { addAll(answers) }
+            groups.forEach {
+                commonAnswers = commonAnswers.intersect(it)
             }
-            println("-> group count: $groupAnswerCount")
-            solution += groupAnswerCount
+            solution += commonAnswers.size
         }
 
     println("solution part2: $solution")
