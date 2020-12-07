@@ -69,22 +69,13 @@ data class Bag(val type: String, val rules: Set<BagRule>)
 
 fun main() {
     val input = AdventOfCode.file("day7/input").lines().filter { it.isNotBlank() }
-//        """
-//            light red bags contain 1 bright white bag, 2 muted yellow bags.
-//            dark orange bags contain 3 bright white bags, 4 muted yellow bags.
-//            bright white bags contain 1 shiny gold bag.
-//            muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
-//            shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.
-//            dark olive bags contain 3 faded blue bags, 4 dotted black bags.
-//            vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
-//            faded blue bags contain no other bags.
-//            dotted black bags contain no other bags.
-//        """.trimIndent().lines()
 
     val bags = input.map { bag(it) }
         .onEach { println(it) }
 
     println("solution part one: ${bags.search("shiny gold").count()}")
+
+    println("solution part two: ${bags.searchAndCount("shiny gold") - 1}")
 }
 
 fun bagType(rule: String): String {
@@ -123,4 +114,12 @@ fun List<Bag>.search(bagOfInterest: String): Set<String> {
             }
         }
     }.flatten().toSet()
+}
+
+fun List<Bag>.searchAndCount(bagOfInterest: String): Int {
+    var bags = 1
+    first { it.type == bagOfInterest }.rules.forEach {
+        bags += (it.amount * searchAndCount(it.type))
+    }
+    return bags
 }
