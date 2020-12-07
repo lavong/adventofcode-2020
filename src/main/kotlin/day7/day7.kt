@@ -71,7 +71,6 @@ fun main() {
     val input = AdventOfCode.file("day7/input").lines().filter { it.isNotBlank() }
 
     val bags = input.map { bag(it) }
-        .onEach { println(it) }
 
     println("solution part one: ${bags.search("shiny gold").count()}")
 
