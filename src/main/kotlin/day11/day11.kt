@@ -213,19 +213,21 @@ package day11
 
 import day11.SeatType.*
 import java.lang.Exception
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTimedValue
 
+@ExperimentalTime
 fun main() {
-
     val input = AdventOfCode.file("day11/input")
         .lines().filterNot { it.isBlank() }
 
-    input.map { it.seatTypes() }
-        .let { simulate(it, ::adjacentOccupationCount, 4) }
-        .also { println("solution part 1: $it") }
+    val seats = input.map { it.seatTypes() }
 
-    input.map { it.seatTypes() }
-        .let { simulate(it, ::raycastingOccupationCount, 5) }
-        .also { println("solution part 2: $it") }
+    measureTimedValue { gameOfSeats(seats, ::adjacentOccupationCount, 4) }
+        .also { println("solution part 1: ${it.value} (time: ${it.duration})") }
+
+    measureTimedValue { gameOfSeats(seats, ::raycastingOccupationCount, 5) }
+        .also { println("solution part 2: ${it.value} (time: ${it.duration})") }
 }
 
 enum class SeatType(val char: Char) {
@@ -297,12 +299,12 @@ fun rayHitsOccupiedSeat(input: List<List<SeatType>>, x: Int, y: Int, dx: Int, dy
     return false
 }
 
-fun simulate(
+fun gameOfSeats(
     input: List<List<SeatType>>,
     calcOccupation: (List<List<SeatType>>, Int, Int) -> Int,
     occupationThreshold: Int
 ): Int {
-    val maxRounds = 1_000
+    val maxRounds = 100
     var round = 0
     var prevOccupied = 0
     val seats = mutableListOf<MutableList<SeatType>>().apply {
