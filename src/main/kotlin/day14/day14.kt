@@ -114,11 +114,9 @@ fun main() {
 fun solvePartOne(input: List<String>): Long {
     val memory = Memory()
     input.forEach {
-        if (it.startsWith("mask")) {
-            memory.bitmask = it.parseBitmask()
-        } else {
-            memory.put(Instruction.parse(it))
-        }
+        it.parseBitmask()
+            ?.apply { memory.bitmask = this }
+            ?: memory.put(Instruction.parse(it))
     }
     return memory.sum()
 }
@@ -126,18 +124,22 @@ fun solvePartOne(input: List<String>): Long {
 fun solvePartTwo(input: List<String>): Long {
     val memory = Memory()
     input.forEach {
-        if (it.startsWith("mask")) {
-            memory.bitmask = it.parseBitmask()
-        } else {
-            memory.putV2(Instruction.parse(it))
-        }
+        it.parseBitmask()
+            ?.apply { memory.bitmask = this }
+            ?: memory.putV2(Instruction.parse(it))
     }
     return memory.sum()
 }
 
 typealias Bitmask = String
 
-fun String.parseBitmask(): Bitmask = split("=").last().trim()
+fun String.parseBitmask(): Bitmask? {
+    return if (startsWith("mask")) {
+        split("=").last().trim()
+    } else {
+        null
+    }
+}
 
 data class Memory(var bitmask: Bitmask? = null, val mem: MutableMap<Long, Long> = mutableMapOf()) {
 
