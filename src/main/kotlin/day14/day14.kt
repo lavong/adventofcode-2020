@@ -115,7 +115,7 @@ fun solvePartOne(input: List<String>): Long {
     val memory = Memory()
     input.forEach {
         if (it.startsWith("mask")) {
-            memory.parseBitmask(it)
+            memory.bitmask = it.parseBitmask()
         } else {
             memory.put(Instruction.parse(it))
         }
@@ -127,7 +127,7 @@ fun solvePartTwo(input: List<String>): Long {
     val memory = Memory()
     input.forEach {
         if (it.startsWith("mask")) {
-            memory.parseBitmask(it)
+            memory.bitmask = it.parseBitmask()
         } else {
             memory.putV2(Instruction.parse(it))
         }
@@ -135,7 +135,11 @@ fun solvePartTwo(input: List<String>): Long {
     return memory.sum()
 }
 
-data class Memory(var bitmask: String? = null, val mem: MutableMap<Long, Long> = mutableMapOf()) {
+typealias Bitmask = String
+
+fun String.parseBitmask(): Bitmask = split("=").last().trim()
+
+data class Memory(var bitmask: Bitmask? = null, val mem: MutableMap<Long, Long> = mutableMapOf()) {
 
     fun put(instruction: Instruction) {
         instruction.value.toString(2)
@@ -160,10 +164,6 @@ data class Memory(var bitmask: String? = null, val mem: MutableMap<Long, Long> =
     }
 
     fun sum() = mem.values.sum()
-
-    fun parseBitmask(input: String) {
-        bitmask = input.split("=").last().trim()
-    }
 }
 
 data class Instruction(val address: Long, val value: Long) {
@@ -182,7 +182,7 @@ data class Instruction(val address: Long, val value: Long) {
     }
 }
 
-fun String.permutations(): List<String> {
+fun Bitmask.permutations(): List<String> {
     if (!contains("X")) return listOf(this)
 
     val floatingBitCount = count { it == 'X' }
