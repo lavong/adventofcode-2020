@@ -47,19 +47,25 @@ fun main() {
     val input = AdventOfCode.file("day15/input").lines().first()
         .split(",").mapNotNull { it.toIntOrNull() }
 
-    println(input)
+    input.memoryGame(2020)
+        .also { println("solution part 1: $it") }
 
+    input.memoryGame(30_000_000)
+        .also { println("solution part 2: $it") }
+}
+
+fun List<Int>.memoryGame(turns: Int): Int {
     val spoken = mutableMapOf<Int, Int>()
     var lastSpoken: Int? = null
     var lastSpokenTurn: Int? = null
-    (0 until 2020).forEach { turn ->
-        val n = if (turn in input.indices) {
-            input[turn]
+    (0 until turns).forEach { turn ->
+        val n = if (turn in indices) {
+            this[turn]
         } else {
             lastSpokenTurn?.let { turn - it - 1 } ?: 0
         }
         lastSpokenTurn = spoken.put(n, turn)
         lastSpoken = n
     }
-    println("solution: $lastSpoken")
+    return lastSpoken!!
 }
