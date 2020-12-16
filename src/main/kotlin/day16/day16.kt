@@ -48,11 +48,11 @@ fun main() {
     val input = AdventOfCode.file("day16/input")
         .lines().filterNot { it.isBlank() }
 
-    Note.parse(input)
-        .invalidTicketIds()
-        .sum()
-        .also { println("solution: $it") }
+    solvePartOne(input)
+        .also { println("solution part 1: $it") }
 
+    solvePartTwo(input)
+        .also { println("solution part 2: $it") }
 }
 
 data class Rule(val name: String, val valid: Set<Int>) {
@@ -109,12 +109,13 @@ data class Note(
     }
 }
 
+fun solvePartOne(input: List<String>): Int {
+    return Note.parse(input)
+        .invalidTicketIds()
+        .sum()
+}
 
-
-
-
-
-
-
-
-
+fun solvePartTwo(input: List<String>): Any {
+    // TODO 🤷🏼‍ meh.
+    return """¯\_(ツ)_/¯"""
+}
